@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Covid Vaccine Tracker</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="{{ url_for('static', filename='img/vaccine.ico') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+
+    </head>
+
+    <body>
+
+    <main role="main" class="container extra-bottom">
+      <h1 class="mt-5">COVID Distributions by City, Type, and Month:</h1>
+      <p><mark>Use the features below to interact with the data</mark></p>
+    </main>
+    
+
+    <div class="container">    
+        
+        <!-- Button trigger modal -->
+        <div style="text-align: right;">
+            <button type="button" class="btn btn-outline-info btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#distribution-modal" data-source="New Distribution">Add Distribution Record</button>
+        </div>
+        <div style="text-align: right;">
+            <button type="button" class="btn btn-outline-info btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#distribution-modal3" data-source="New Distribution">Search Distribution Records</button>
+        </div>
+        <div style="text-align: right;">
+            <button type="button" class="btn btn-outline-info btn-sm query" data-source="New Distribution">Cities with higher all time average number of death per month for Moderna vaccine in Jan 2021 </button>
+        </div>
+
+        
+        <div class="modal fade" id="distribution-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Label">New Distribution Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="distribution-form-display">City ID</span>
+                    <input type="number" class="form-control1" placeholder="123" aria-label="city-id" aria-describedby="basic-addon1">
+                    
+                    <span class="input-group-text" id="distribution-form-display">Date Delivered</span>
+                    <input type="text" class="form-control2" placeholder="m/d/yyyy" aria-label="date" aria-describedby="basic-addon1">
+
+                    <span class="input-group-text" id="distribution-form-display">Number Delivered</span>
+                    <input type="number" class="form-control3" placeholder="1234" aria-label="num-distribution" aria-describedby="basic-addon1">
+
+                    <span class="input-group-text" id="distribution-form-display">Type</span>
+                    <input type="text" class="form-control4" placeholder="J&J" aria-label="type_param" aria-describedby="basic-addon1">
+                   
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="submit-distribution" type="button" class="btn btn-primary">Add</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="distribution-modal2" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Label">Update Distribution record</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+                <div class="modal-body2">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="distribution-form-display">Number of Distributions</span>
+                        <input type="number" class="form-control3" placeholder="1234" aria-label="num-distribution" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="edit" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="distribution-modal3" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="Label">Search Keywords</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+                <div class="modal-body2">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="distribution-form-display">City ID</span>
+                        <input type="number" class="form-control1" placeholder="123" aria-label="city-id" aria-describedby="basic-addon1">
+                    
+                        <span class="input-group-text" id="distribution-form-display">Date Delivered</span>
+                        <input type="text" class="form-control2" placeholder="m/d/yyyy" aria-label="date" aria-describedby="basic-addon1">
+
+                        <span class="input-group-text" id="distribution-form-display">Type</span>
+                        <input type="text" class="form-control3" placeholder="J&J" aria-label="type_param" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="search" type="button" class="btn btn-primary">Search</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--distribution Table-->
+    <div class="container table-responsive">          
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="city-id">City ID/Name</th>
+            <th class="date">Date Delivered</th>
+            <th class="type">Type</th>
+            <th class="num-distribution">Number of Distributions</th>
+            <th class="num-distribution">Number of Deaths</th>
+            <th class="update">Update</th>
+            <th class="delete">Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{item.city_id}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.num_delivered}}</td>
+                <td>{{item.num_deaths}}</td>
+                
+                <td><button type="button" class="btn btn-outline-info btn-sm edit" data-bs-toggle="modal" data-bs-target="#distribution-modal2" data-source="{{item.city_id}}" data-content="{{item.date}}" data-content2="{{item.type}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.city_id}}" data-content="{{item.date}}" data-content2="{{item.type}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+            </tr>
+        {% endfor %}
+        
+        </tbody>
+    </table>
+    </div>
+
+  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+
+</html>

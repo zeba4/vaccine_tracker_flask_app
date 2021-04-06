@@ -1,0 +1,8 @@
+/pycache
+.venv
+
+.vscode
+.gloudignore
+
+.git
+.gitignore
