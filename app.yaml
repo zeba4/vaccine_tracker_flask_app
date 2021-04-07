@@ -4,9 +4,9 @@ instance_class: F1
 
 env_variables:
   MYSQL_USER: 'root'
-  MYSQL_PASSWORD: 'cs411'
-  MYSQL_DB: 'vaccine_tracker'
-  MYSQL_HOST: '34.122.181.200'
+  MYSQL_PASSWORD: ''
+  MYSQL_DB: ''
+  MYSQL_HOST: ''
 
 handlers:
 - url: /img
