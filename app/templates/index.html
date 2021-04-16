@@ -128,7 +128,8 @@
     <table class="table">
         <thead>
         <tr>
-            <th class="city-id">City ID/Name</th>
+            <th class="city-id">City ID</th>
+            <th class="city-name">City Name</th>
             <th class="date">Date Delivered</th>
             <th class="type">Type</th>
             <th class="num-distribution">Number of Distributions</th>
@@ -142,6 +143,7 @@
         {% for item in items %}
             <tr>
                 <td>{{item.city_id}}</td>
+                <td>{{item.city_name}}</td>
                 <td>{{item.date}}</td>
                 <td>{{item.type}}</td>
                 <td>{{item.num_delivered}}</td>

@@ -91,7 +91,7 @@ def search(city_id, date, type_param):
     global date_global
     global type_global
     date = unquote(date)
-    city_id_global = city_id
+    city_id_global = 2
     type_global = unquote(type_param)
     result = {'success': True, 'response': 'Done'}
     return jsonify(result)
@@ -121,6 +121,8 @@ def homepage():
         items = db_helper.fetch_todo(city_id_global, date_global, type_global)
     elif city_id_global == -1 and date_global == 'query':
         items = db_helper.fetch_todo(city_id_global, date_global, type_global)
+    # elif city_id_global == 2:
+    #     items = db_helper.fetch_todo(city_id_global, date_global, type_global)
     else:
         items = db_helper.fetch_todo(0, '', type_global)
 

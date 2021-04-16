@@ -4,13 +4,13 @@ import sys
 from app import db
 
 def fetch_todo(city_id: int, date: str, type_param: str) -> dict:
-    """Reads all tasks listed in the deaths table
+    """Reads all tasks listed in the table
     Returns:
         A list of dictionaries
     """
     conn = db.connect()
     todo_list = []
-
+    print(city_id)
     if city_id == 0 and date == '':
         query_results = conn.execute("Select * FROM Distributions LIMIT 15;").fetchall()
         # conn.close()
@@ -23,12 +23,12 @@ def fetch_todo(city_id: int, date: str, type_param: str) -> dict:
             }
             todo_list.append(item)
 
-    if city_id == -1 and date == 'query':
-        query_results = conn.execute("Select Distinct c.city_id, del.num_delivered, d.num_deaths From Distributions del Natural Join City c Join Deaths d on d.city_id = c.city_id Where d.num_deaths > (Select avg(num_deaths) From Deaths) and d.date Like '1/1/2021' and del.date Like '1/1/2021' and type = 'Moderna' Order By d.num_deaths desc Limit 15;").fetchall()
+    elif city_id == -1 and date == 'query':
+        query_results = conn.execute("Select Distinct c.city_name, del.num_delivered, d.num_deaths From Distributions del Natural Join City c Join Deaths d on d.city_id = c.city_id Where d.num_deaths > (Select avg(num_deaths) From Deaths) and d.date Like '1/1/2021' and del.date Like '1/1/2021' and type = 'Moderna' Order By d.num_deaths desc Limit 15;").fetchall()
         conn.close()
         for result in query_results:
             item = {
-                "city_id": result[0],
+                "city_name": result[0],
                 "num_delivered": result[1],
                 "num_deaths" : result[2]
                
@@ -48,6 +48,9 @@ def fetch_todo(city_id: int, date: str, type_param: str) -> dict:
                 "num_delivered" : result[3]
             }
             todo_list.append(item)
+
+        # print(result[3])
+        print("got here")
 
     return todo_list
 
@@ -73,8 +76,8 @@ def insert_new_distribution(city_id: int, date: str, num_delivered: int, type_pa
     """Insert new distribution to Distributions table.
     Args:
         city_id (int): city id
-        date (str): month of deaths
-        num_delivered (int): number of deaths for that month
+        date (str): month 
+        num_delivered (int): number of vaccines delivered for that month
         type_param (str): type of dose
     """
 
